@@ -28,7 +28,7 @@ const authRoutes = require('./routes/auth')
 app.use('/api/user', authRoutes)
 
 app.get('/', (req, res) => {
-  return res.sendStatus(200)
+  res.sendStatus(200)
 })
 
 app.listen(PORT, () => {
