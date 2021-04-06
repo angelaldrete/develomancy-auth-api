@@ -1,5 +1,5 @@
 require('dotenv').config()
-require('./config/db')
+// require('./config/db')
 
 const express = require('express')
 const session = require('express-session')
@@ -26,6 +26,10 @@ app.use(session({
 // Routes
 const authRoutes = require('./routes/auth')
 app.use('/api/user', authRoutes)
+
+app.get('/', (req, res) => {
+  return res.sendStatus(200)
+})
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
