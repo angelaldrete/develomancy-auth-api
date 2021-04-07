@@ -1,6 +1,10 @@
-const mongoose = require('mongoose')
+require('dotenv').config()
+const MongoClient = require('mongodb').MongoClient;
 
 const uri = process.env.DB_CONNECT
-mongoose.connect(uri)
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  if (err) throw err
+});
 
-module.exports = mongoose
+module.exports = client

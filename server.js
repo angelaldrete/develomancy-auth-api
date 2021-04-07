@@ -1,9 +1,11 @@
 // require('dotenv').config()
 require('./config/db')
+const client = require('./config/cache')
 
 const express = require('express')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
+const RedisStore = require('connect-redis')(session)
 const app = express()
 const cors = require('cors')
 const PORT = process.env.PORT || 4000
@@ -17,7 +19,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: UI_URI, credentials: true }))
 var sess = {
   secret: SESSION_SECRET,
-  cookie: {}
+  resave: false,
+  saveUninitialized: false,
+  cookie: {},
+  store: new RedisStore({ client: client })
 }
 
 if (app.get('env') === 'production') {
