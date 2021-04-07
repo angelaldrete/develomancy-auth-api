@@ -32,10 +32,6 @@ cors_proxy.createServer({
     console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
 
-cors_proxy.on('error', (err) => {
-  console.log(err)
-})
-
 var sess = {
   // store: new RedisStore({ client: client }),
   secret: SESSION_SECRET,
