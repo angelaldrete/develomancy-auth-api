@@ -18,9 +18,10 @@ app.use(session({
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
-    secure: false,
-    sameSite: true,
+    secure: true,
+    maxAge: 14 * 60 * 60 * 24,
     httpOnly: false,
   },
   store: MongoStore.create({
