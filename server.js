@@ -12,12 +12,35 @@ const PORT = process.env.PORT || 4000
 const SESSION_SECRET = process.env.SESSION_SECRET
 const UI_URI = process.env.UI_URI
 
+const corsAnywhere = require('cors-anywhere')
+
+
 // Middleware
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.enable('trust proxy')
 // app.use(cors({ origin: UI_URI, credentials: true }))
+corsAnywhere.createServer({
+  originWhiteList: [UI_URI],
+  requireHeader: ['origin', 'x-requested-with'],
+  checkRateLimit: checkRateLimit,
+  removeHeaders: [
+    'cookie',
+    'cookie2',
+    'x-request-start',
+    'x-request-id',
+    'via',
+    'connect-time',
+    'total-route-time',
+  ],
+  redirectSameOrigin: true,
+  httpProxyOptions: {
+    xfwd: false,
+  },
+}).listen(PORT, process.env.HOST, function() {
+  console.log('Running CORS Anywhere on ' + PORT + ':' + process.env.HOST);
+});
 
 var sess = {
   // store: new RedisStore({ client: client }),
