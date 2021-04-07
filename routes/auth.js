@@ -170,7 +170,7 @@ router.get('/auth/facebook', async (req, res) => {
     req.session.stateValue = state
 
     // Ask for consent
-    return res.redirect(
+    return res.send(
       `https://www.facebook.com/v10.0/dialog/oauth?client_id=${FB_APP_ID}&redirect_uri=${FB_REDIRECT_URI}&auth_type=rerequest&scope=email&state=${state}`
     )
 
@@ -316,7 +316,7 @@ router.get('/auth/google', async (req, res) => {
       state: state
     });
 
-    return res.redirect(url)
+    return res.send(url)
 
   } catch (err) {
     console.log(err)
