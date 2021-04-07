@@ -24,11 +24,7 @@ var sess = {
   resave: false,
   saveUninitialized: false,
   proxy: true,
-  cookie: {
-    secure: true,
-    httpOnly: false,
-    maxAge: 1000 * 60 * 10
-  },
+  cookie: { secure: true },
   store: new RedisStore({ client: client })
 }
 
