@@ -16,18 +16,19 @@ const UI_URI = process.env.UI_URI
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.set('trust proxy', 1)
 app.use(cors({ origin: UI_URI, credentials: true }))
+
 var sess = {
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: {},
+  cookie: {
+    secure: false,
+    httpOnly: false,
+    maxAge: 1000 * 60 * 10
+  },
   store: new RedisStore({ client: client })
-}
-
-if (app.get('env') === 'production') {
-  app.set('trust proxy', 1)
-  sess.cookie.secure = true
 }
 
 app.use(session(sess))
