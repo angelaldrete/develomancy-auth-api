@@ -23,8 +23,9 @@ var sess = {
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
-    secure: false,
+    secure: true,
     httpOnly: false,
     maxAge: 1000 * 60 * 10
   },
