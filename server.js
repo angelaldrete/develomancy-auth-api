@@ -24,7 +24,6 @@ app.enable('trust proxy')
 corsAnywhere.createServer({
   originWhiteList: [UI_URI],
   requireHeader: ['origin', 'x-requested-with'],
-  checkRateLimit: checkRateLimit,
   removeHeaders: [
     'cookie',
     'cookie2',
