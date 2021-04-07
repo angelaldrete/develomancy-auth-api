@@ -187,7 +187,7 @@ router.get('/auth/facebook', async (req, res) => {
 
 router.get('/facebook/callback', async (req, res) => {
 
-  console.log(`Session in callback: ${req.session}`)
+  console.log(`Session in callback: ${req.session.stateValue}`)
   // Check for state value
   if (req.query.state === req.session.stateValue) {
     try {
