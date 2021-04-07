@@ -1,4 +1,4 @@
-require('dotenv').config()
+// require('dotenv').config()/
 const express = require('express')
 const app = express()
 const session = require('express-session')
@@ -13,7 +13,7 @@ const STORE_SECRET = process.env.STORE_SECRET
 
 // Middleware
 app.use(cors({ origin: UI_URI, credentials: true }))
-app.set('trust proxy', true)
+app.set('trust proxy', 1)
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
