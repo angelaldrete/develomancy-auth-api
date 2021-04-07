@@ -169,7 +169,7 @@ router.get('/auth/facebook', async (req, res) => {
     const state = req.query.state
     req.session.stateValue = state
 
-    console.log('State before callback: ' + req.protocol.state)
+    console.log('State before callback: ' + req.protocol)
 
     // Ask for consent
     return res.send({
@@ -187,7 +187,7 @@ router.get('/auth/facebook', async (req, res) => {
 
 router.get('/facebook/callback', async (req, res) => {
 
-  console.log('State in protocol: ' + req.protocol,state)
+  console.log('State in protocol: ' + req.protocol)
 
   console.log(`Session in callback: ${req.session.stateValue}`)
   // Check for state value
