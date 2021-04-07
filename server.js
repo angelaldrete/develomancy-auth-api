@@ -17,7 +17,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.enable('trust proxy')
-app.use(cors({ origin: UI_URI, credentials: true }))
+// app.use(cors({ origin: UI_URI, credentials: true }))
 
 var sess = {
   // store: new RedisStore({ client: client }),
@@ -30,7 +30,7 @@ var sess = {
     // path: '/',
     httpOnly: true,
     maxAge: 360000,
-    sameSite: 'none'
+    sameSite: 'lax'
   }
 }
 
