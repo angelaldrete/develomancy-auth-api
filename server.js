@@ -1,5 +1,5 @@
 // require('dotenv').config()
-// require('./config/db')
+require('./config/db')
 
 const express = require('express')
 const session = require('express-session')
