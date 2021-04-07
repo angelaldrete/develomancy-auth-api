@@ -5,7 +5,7 @@ const client = require('./config/cache')
 const express = require('express')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
-const RedisStore = require('connect-redis')(session)
+// const RedisStore = require('connect-redis')(session)
 const app = express()
 const cors = require('cors')
 const PORT = process.env.PORT || 4000
@@ -16,21 +16,22 @@ const UI_URI = process.env.UI_URI
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.set('trust proxy', 1)
+app.enable('trust proxy')
 app.use(cors({ origin: UI_URI, credentials: true }))
 
 var sess = {
+  // store: new RedisStore({ client: client }),
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  proxy: true,
+  // proxy: true,
   cookie: {
-    secure: false,
-    path: '/',
+    secure: true,
+    // path: '/',
     httpOnly: true,
-    maxAge: 360000
-  },
-  store: new RedisStore({ client: client })
+    maxAge: 360000,
+    sameSite: 'none'
+  }
 }
 
 app.use(session(sess))
