@@ -379,7 +379,11 @@ router.get('/google/callback', async (req, res) => {
     }
   } else {
     res.send({
-      message: 'Not same state'
+      message: 'Not same state',
+      states: [
+        req.query.state,
+        req.session.googleState
+      ]
     })
   }
 

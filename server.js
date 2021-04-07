@@ -23,6 +23,8 @@ app.use(session({
   }
 }))
 
+app.set('trust proxy', 1)
+
 // Routes
 const authRoutes = require('./routes/auth')
 app.use('/api/user', authRoutes)
