@@ -2,7 +2,7 @@
 require('./config/db')
 const express = require('express')
 const session = require('express-session')
-const MongoStore = require('connect-mongo')
+const MongoStore = require('connect-mongo')(session)
 const app = express()
 const cors = require('cors')
 const PORT = process.env.PORT || 4000
@@ -13,15 +13,17 @@ const DB_CONNECT = process.env.DB_CONNECT
 
 // Middleware
 app.use(cors({ origin: UI_URI, credentials: true }))
-app.set('trust proxy', 1)
+app.set('trust proxy', true)
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     secure: true,
+    sameSite: true,
+    httpOnly: true,
   },
-  store: MongoStore.create({
+  store: new MongoStore({
     mongoUrl: DB_CONNECT,
     ttl: 14 * 24 * 60 * 60,
     autoRemove: 'native',
