@@ -21,7 +21,7 @@ app.use(session({
   cookie: {
     secure: false,
     sameSite: true,
-    httpOnly: true,
+    httpOnly: false,
   },
   store: MongoStore.create({
     client: db.connect(),
