@@ -3,6 +3,7 @@ require('./config/db')
 
 const express = require('express')
 const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const app = express()
 const cors = require('cors')
 const PORT = process.env.PORT || 4000
@@ -10,6 +11,7 @@ const SESSION_SECRET = process.env.SESSION_SECRET
 const UI_URI = process.env.UI_URI
 
 // Middleware
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: UI_URI, credentials: true }))
