@@ -8,6 +8,7 @@ const cors = require('cors')
 const PORT = process.env.PORT || 4000
 const SESSION_SECRET = process.env.SESSION_SECRET
 const UI_URI = process.env.UI_URI
+const User = require('./models/user')
 
 // Middleware
 app.use(express.json())
@@ -29,6 +30,11 @@ app.use('/api/user', authRoutes)
 
 app.get('/', (req, res) => {
   res.sendStatus(200)
+})
+
+app.get('/api/users', async (req, res) => {
+  const users = await User.find()
+  res.send(users)
 })
 
 app.listen(PORT, () => {
