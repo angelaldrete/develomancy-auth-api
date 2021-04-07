@@ -1,6 +1,5 @@
 // require('dotenv').config()
 require('./config/db')
-const db = require('./config/db')
 const express = require('express')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
@@ -23,7 +22,7 @@ app.use(session({
     secure: true,
   },
   store: MongoStore.create({
-    mongodb: DB_CONNECT,
+    mongoUrl: DB_CONNECT,
     ttl: 14 * 24 * 60 * 60,
     autoRemove: 'native',
     crypto: {
