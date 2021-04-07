@@ -169,8 +169,6 @@ router.get('/auth/facebook', async (req, res) => {
     const state = req.query.state
     req.session.stateValue = state
 
-    console.log('State before callback: ' + req.session.cookie)
-
     // Ask for consent
     return res.send({
       url: `https://www.facebook.com/v10.0/dialog/oauth?client_id=${FB_APP_ID}&redirect_uri=${FB_REDIRECT_URI}&auth_type=rerequest&scope=email&state=${state}`

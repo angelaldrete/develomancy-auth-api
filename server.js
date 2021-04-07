@@ -25,6 +25,7 @@ app.use(session({
     httpOnly: false,
   },
   store: MongoStore.create({
+    dbName: 'sessions',
     client: db.connect(),
     ttl: 14 * 24 * 60 * 60,
     autoRemove: 'native',
