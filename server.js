@@ -5,7 +5,7 @@ const client = require('./config/cache')
 const express = require('express')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
-// const RedisStore = require('connect-redis')(session)
+const RedisStore = require('connect-redis')(session)
 const app = express()
 const cors = require('cors')
 const PORT = process.env.PORT || 4000
@@ -19,7 +19,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
-  // store: new RedisStore({ client: client }),
+  store: new RedisStore({ client: client }),
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
