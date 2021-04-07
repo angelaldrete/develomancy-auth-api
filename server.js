@@ -11,13 +11,12 @@ const cors = require('cors')
 const PORT = process.env.PORT || 4000
 const SESSION_SECRET = process.env.SESSION_SECRET
 const UI_URI = process.env.UI_URI
+const COOKIE_SECRET = process.env.COOKIE_SECRET
 
 // Middleware
 app.use(cors({ origin: UI_URI, credentials: true }))
 app.enable('trust proxy')
-app.use(cookieParser())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser(COOKIE_SECRET))
 app.use(session({
   store: new RedisStore({ client: client }),
   secret: SESSION_SECRET,
@@ -31,6 +30,8 @@ app.use(session({
     sameSite: 'lax'
   }
 }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // Routes
 const authRoutes = require('./routes/auth')
