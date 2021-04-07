@@ -11,19 +11,20 @@ const UI_URI = process.env.UI_URI
 
 // Middleware
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: UI_URI, credentials: true }))
-app.use(session({
+var sess = {
   secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: 'auto',
-    httpOnly: true,
-    maxAge: 3600000
-  }
-}))
+  cookie: {}
+}
 
-app.set('trust proxy', 1)
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1)
+  sess.cookie.secure = true
+}
+
+app.use(session(sess))
+
 
 // Routes
 const authRoutes = require('./routes/auth')
