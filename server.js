@@ -30,7 +30,6 @@ var sess = {
 
 app.use(session(sess))
 
-
 // Routes
 const authRoutes = require('./routes/auth')
 app.use('/api/user', authRoutes)
