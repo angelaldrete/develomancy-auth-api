@@ -11,7 +11,7 @@ const UI_URI = process.env.UI_URI
 
 // Middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors({ origin: UI_URI, credentials: true }))
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
