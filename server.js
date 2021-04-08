@@ -3,30 +3,33 @@ const express = require('express')
 const app = express()
 const session = require('express-session')
 const cors = require('cors')
-const MemcachedStore = require('connect-memjs')(session)
-require('./config/db')
+const MongoStore = require('connect-mongo')
+const db = require('./config/db')
 
 const PORT = process.env.PORT || 4000
 const SESSION_SECRET = process.env.SESSION_SECRET
 const UI_URI = process.env.UI_URI
+const STORE_SECRET = process.env.STORE_SECRET
 
 // Middleware
 app.use(cors({ origin: UI_URI, credentials: true }))
-// app.set('trust proxy', 1)
+app.set('trust proxy', 1)
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  // cookie: {
-  //   secure: true,
-  //   maxAge: 14 * 60 * 60 * 24,
-  //   httpOnly: false,
-  // },
-  store: new MemcachedStore({
-    servers: [process.env.MEMCACHIER_SERVERS],
-    username: process.env.MEMCACHIER_USERNAME,
-    password: process.env.MEMCACHIER_PASSWORD,
-    prefix: '_session_',
+  cookie: {
+    secure: true,
+    maxAge: 14 * 60 * 60 * 24,
+    httpOnly: false,
+  },
+  store: MongoStore.create({
+    client: db.connect(),
+    ttl: 14 * 24 * 60 * 60,
+    autoRemove: 'native',
+    crypto: {
+      secret: STORE_SECRET
+    }
   })
 }))
 app.use(express.json())
