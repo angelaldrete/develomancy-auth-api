@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const session = require('express-session')
 const cors = require('cors')
-const MongoStore = require('connect-mongo')
+const MemcachedStore = require('connect-memjs')(session)
 const db = require('./config/db')
 
 const PORT = process.env.PORT || 4000
@@ -18,20 +18,14 @@ app.use(session({
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  proxy: true,
   cookie: {
     secure: true,
     maxAge: 14 * 60 * 60 * 24,
     httpOnly: false,
   },
-  store: MongoStore.create({
-    dbName: 'sessions',
-    client: db.connect(),
-    ttl: 14 * 24 * 60 * 60,
-    autoRemove: 'native',
-    crypto: {
-      secret: STORE_SECRET
-    }
+  store: new MemcachedStore({
+    servers: [process.env.HOST],
+    prefix: '_session_',
   })
 }))
 app.use(express.json())
