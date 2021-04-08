@@ -24,7 +24,7 @@ app.use(session({
   },
   store: new MemcachedStore({
     servers: [process.env.MEMCACHIER_SERVERS],
-    username: process.env.MEMCACHIER_USER,
+    username: process.env.MEMCACHIER_USERNAME,
     password: process.env.MEMCACHIER_PASSWORD,
     prefix: '_session_',
   })
