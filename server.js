@@ -9,7 +9,6 @@ const db = require('./config/db')
 const PORT = process.env.PORT || 4000
 const SESSION_SECRET = process.env.SESSION_SECRET
 const UI_URI = process.env.UI_URI
-const STORE_SECRET = process.env.STORE_SECRET
 
 // Middleware
 app.use(cors({ origin: UI_URI, credentials: true }))
@@ -24,7 +23,9 @@ app.use(session({
     httpOnly: false,
   },
   store: new MemcachedStore({
-    servers: [process.env.HOST],
+    servers: [process.env.MEMCACHIER_SERVERS],
+    username: process.env.MEMCACHIER_USER,
+    password: process.env.MEMCACHIER_PASSWORD,
     prefix: '_session_',
   })
 }))
