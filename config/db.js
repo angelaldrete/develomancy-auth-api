@@ -1,10 +1,11 @@
-// require('dotenv').config()
-const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose')
 
 const uri = process.env.DB_CONNECT
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  if (err) throw err
+const client = mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
 });
 
 module.exports = client

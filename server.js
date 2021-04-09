@@ -1,43 +1,42 @@
-// require('dotenv').config()/
+require('./utils/dev_env')
+require('./config/db')
+
 const express = require('express')
 const app = express()
 const session = require('express-session')
 const cors = require('cors')
-const MongoStore = require('connect-mongo')
-const db = require('./config/db')
+const passport = require('passport')
 
 const PORT = process.env.PORT || 4000
 const SESSION_SECRET = process.env.SESSION_SECRET
 const UI_URI = process.env.UI_URI
-const STORE_SECRET = process.env.STORE_SECRET
 
 // Middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: UI_URI, credentials: true }))
 app.set('trust proxy', 1)
 app.use(session({
   secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   cookie: {
+    sameSite: 'none',
     secure: true,
-    maxAge: 14 * 60 * 60 * 24,
-    httpOnly: false,
-  },
-  store: MongoStore.create({
-    client: db.connect(),
-    ttl: 14 * 24 * 60 * 60,
-    autoRemove: 'native',
-    crypto: {
-      secret: STORE_SECRET
-    }
-  })
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
 }))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Routes
 const authRoutes = require('./routes/auth')
+const googleOauth = require('./routes/google')
+const fbOauth = require('./routes/facebook')
+
 app.use('/api/user', authRoutes)
+app.use('/api/google', googleOauth)
+app.use('/api/facebook', fbOauth)
 
 app.get('/', (req, res) => {
   res.sendStatus(200)
