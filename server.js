@@ -4,6 +4,7 @@ require('./config/db')
 const express = require('express')
 const app = express()
 const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const client = require('./config/cache')
 const RedisStore = require('connect-redis')(session)
 const cors = require('cors')
@@ -19,6 +20,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: UI_URI, credentials: true }))
 app.set('trust proxy', 1)
+app.use(cookieParser(SESSION_SECRET))
 app.use(session({
   secret: SESSION_SECRET,
   resave: true,
