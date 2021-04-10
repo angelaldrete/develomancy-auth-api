@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
   } else {
     req.logout()
   }
-  return
+  return res.send(null)
 })
 
 router.post('/register', async (req, res) => {
