@@ -19,16 +19,14 @@ passport.use('login', new LocalStrategy({
     const user = await User.findOne({ email })
     if (!user) { return done(null, false) }
     const validate = await user.isValidPassword(password, user.password)
-    console.log(validate)
     if (!validate) { return done(null, false) }
-    console.log(user)
     return done(null, user)
   } catch (err) {
     return done(err)
   }
 }))
 
-passport.serializeUser((user, done) => done(null, user.id))
+passport.serializeUser((user, done) => done(null, user._id))
 
 passport.deserializeUser((id, done) => {
   User.findById(id, (err, user) => {
@@ -38,8 +36,7 @@ passport.deserializeUser((id, done) => {
 
 router.get('/', (req, res) => {
   if (req.user) {
-    res.status(200)
-    res.send(req.user)
+    return res.send(req.user)
   } else {
     req.logout()
   }
