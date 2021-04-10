@@ -35,7 +35,6 @@ passport.deserializeUser((id, done) => {
 })
 
 router.get('/', (req, res) => {
-  console.log(req.user)
   if (req.user) {
     return res.send(req.user)
   } else {
